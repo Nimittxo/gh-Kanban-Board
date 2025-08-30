@@ -1,42 +1,326 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* src/App.css */
+/* --- THEME VARIABLES --- */
+:root, .light {
+  --bg-primary: #F8F9FD;
+  --bg-secondary: #F4F5F7;
+  --bg-tertiary: #ffffff;
+  --text-primary: #172b4d;
+  --text-secondary: #5e6c84;
+  --border-color: #dfe1e6;
+  --shadow-color: rgba(9,30,66,.15);
+  --accent-primary: #0079bf;
+  --accent-primary-hover: #026aa7;
+}
+
+.dark {
+  --bg-primary: #1d2125;
+  --bg-secondary: #282e33;
+  --bg-tertiary: #2c3238;
+  --text-primary: #d1d5db;
+  --text-secondary: #9fa8b3;
+  --border-color: #4b5563;
+  --shadow-color: rgba(0,0,0,.25);
+  --accent-primary: #38bdf8;
+  --accent-primary-hover: #0ea5e9;
+}
+/* Basic Reset & Font */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Main App Container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* --- NEW HEADER STYLES --- */
+.header {
+  background-color: #ffffff;
+  padding: 15px 25px;
+  border-bottom: 1px solid #dfe1e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.project-info .title-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.project-info h1, .project-info .title-input {
+  font-size: 1.5rem;
+  margin: 0;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-weight: bold;
+}
+.project-info h1:hover, .project-info h5:hover {
+  background-color: #f4f5f7;
+  cursor: pointer;
+}
+.favorite-star {
+  font-size: 1.5rem;
+  color: #ffc107;
+  cursor: pointer;
+}
+
+.project-info h5, .project-info .description-input {
+  font-size: 0.9rem;
+  margin: 4px 0 0;
+  font-weight: 400;
+  color: #6b778c;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  width: 100%;
+}
+.description-container {
+  margin-top: 5px;
+}
+.title-input, .description-input {
+  outline: 2px solid #0079bf;
+  border-radius: 2px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #5e6c84;
+}
+.presence-indicators {
+  font-size: 0.9rem;
+}
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #dfe1e6;
+}
+
+/* Sub-Header Styles */
+.sub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background-color: #F8F9FD;
+  flex-shrink: 0;
+}
+.sub-header h2 { margin: 0; font-size: 1.3rem; color: #172b4d; }
+.board-controls button { background-color: #0079bf; color: white; border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer; font-weight: bold; }
+.board-controls button:hover { background-color: #026aa7; }
+
+/* Main Content Area */
+.main-content {
+  flex-grow: 1;
+  overflow-x: auto;
+  padding: 0 25px;
+}
+
+/* Kanban Board Layout */
+.kanban-board {
+  display: inline-flex; /* Use inline-flex to allow the container to size to its content */
+  gap: 16px;
+  padding: 20px 0;
+  align-items: flex-start;
+  min-width: 100%; /* Ensure it takes at least full width */
+}
+
+/* Column Styles */
+.column { 
+  background-color: #F4F5F7; 
+  border-radius: 8px; 
+  width: 280px; 
+  /* flex-shrink: 0; <--- DELETE OR COMMENT OUT THIS LINE */
+  display: flex; 
+  flex-direction: column; 
+  max-height: calc(100vh - 250px); 
+}
+/* Cards Container (for scrolling) */
+.cards-container { padding: 10px; overflow-y: auto; flex-grow: 1; }
+
+/* Card Styles */
+.card { background-color: #ffffff; border-radius: 4px; box-shadow: 0 1px 2px rgba(9,30,66,.15); padding: 10px; margin-bottom: 10px; cursor: grab; font-size: 0.9rem; color: #172b4d; border-left: 3px solid transparent; }
+.card:hover { background-color: #f7f8f9; }
+
+/* Add Card Button */
+.add-card-btn { background: none; border: none; border-radius: 4px; padding: 10px; width: calc(100% - 20px); margin: 0 10px 10px 10px; text-align: left; cursor: pointer; color: #5e6c84; }
+.add-card-btn:hover { background-color: #091e420a; color: #172b4d; }
+
+.card.is-dragging {
+  background-color: #d3e4ff;
+  transform: rotate(3deg);
+  box-shadow: 0 4px 8px rgba(9,30,66,.25);
+}
+
+/* Style for the column being dragged over */
+.cards-container.is-dragging-over {
+  background-color: #e9eff8;
+  border-radius: 4px;
+}
+/* --- COMPONENT STYLES using variables --- */
+.header, .footer { background-color: var(--bg-tertiary); border-color: var(--border-color); }
+.header h5 { color: var(--text-secondary); }
+.sub-header { background-color: var(--bg-primary); }
+.board-controls button { background-color: var(--accent-primary); }
+.board-controls button:hover { background-color: var(--accent-primary-hover); }
+
+.column { background-color: var(--bg-secondary); }
+.column-header { border-bottom: 2px solid var(--border-color); }
+.card-count { background-color: var(--border-color); color: var(--text-secondary); }
+.card { background-color: var(--bg-tertiary); box-shadow: 0 1px 2px var(--shadow-color); color: var(--text-primary); }
+.card:hover { background-color: var(--bg-secondary); }
+.add-card-btn { color: var(--text-secondary); }
+.add-card-btn:hover { background-color: #091e420a; color: var(--text-primary); }
+
+/* --- NEW SETTINGS DRAWER STYLES --- */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+.settings-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100%;
+  background-color: var(--bg-primary);
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.close-drawer-btn {
+  position: absolute;
+  top: 15px;
+  left: -40px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.drawer-section h3 { border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-top: 0;}
+.column-list { list-style: none; padding: 0; margin: 0; }
+.column-list li { padding: 8px; border-radius: 4px; background-color: var(--bg-secondary); margin-bottom: 5px; }
+.add-column-form { display: flex; margin-top: 10px; }
+.add-column-form input { flex-grow: 1; border: 1px solid var(--border-color); background: var(--bg-tertiary); color: var(--text-primary); padding: 8px; border-radius: 4px 0 0 4px; }
+.add-column-form button { background-color: var(--accent-primary); color: white; border: none; padding: 0 15px; border-radius: 0 4px 4px 0; cursor: pointer; }
+.theme-options { display: flex; gap: 10px; }
+.theme-options button { flex-grow: 1; padding: 10px; border: 2px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); cursor: pointer; border-radius: 4px; }
+.theme-options button.active { border-color: var(--accent-primary); background-color: var(--accent-primary); color: white; }
+
+/* --- NEW FOOTER STYLES --- */
+.footer {
+  background-color: #ffffff;
+  border-top: 1px solid #dfe1e6;
+  padding: 15px;
   text-align: center;
+  color: #5e6c84;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.footer a {
+  color: #0079bf;
+  text-decoration: none;
+}
+.footer a:hover {
+  text-decoration: underline;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+/* Add Card Form Styles */
+.add-card-form {
+  padding: 0 10px 10px 10px;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.add-card-form textarea {
+  width: 100%;
+  min-height: 60px;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(9,30,66,.15);
+  padding: 8px;
+  box-sizing: border-box;
+  resize: vertical;
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.add-card-controls {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.save-card-btn {
+  background-color: #0079bf;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.save-card-btn:hover {
+  background-color: #026aa7;
+}
+.close-add-card-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6b778c;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Edit & Delete Icons on Card */
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-icons {
+  display: flex;
+  gap: 5px;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.2s;
+}
+.card:hover .card-icons {
+  opacity: 1; /* Show on hover */
+}
+.icon {
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+.icon:hover {
+  background-color: #e9eff8;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+/* Edit Card Form */
+.edit-card-form textarea {
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+  font-family: inherit;
+  font-size: inherit;
 }
