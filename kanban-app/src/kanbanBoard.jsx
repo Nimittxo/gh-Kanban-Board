@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
-import Column from './Column';
+import Column from './column';
 
 // This is now a "presentational" component. It just receives props and renders.
 function KanbanBoard({ columns, onDragEnd, addCard, deleteCard, editCard }) {

@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import './App.css';
-import Header from './Header';
-import KanbanBoard from './KanbanBoard';
+import Header from './header';
+import KanbanBoard from './kanbanBoard';
 import SettingsDrawer from './SettingsDrawer';
 
 function App() {
